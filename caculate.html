@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My Manual Calculator</title>
+    <style>
+        body {
+            background-color: #f0faff;
+            font-family: sans-serif;
+            display: flex;
+            justify-content: center;
+            padding-top: 50px;
+        }
+        .main-box {
+            border: 3px solid #4a90e2;
+            padding: 15px;
+            background: white;
+            border-radius: 5px;
+        }
+        input {
+            width: 250px;
+            height: 40px;
+            font-size: 20px;
+            margin-bottom: 10px;
+            border: 1px solid #4a90e2;
+            text-align: right;
+        }
+        button {
+            width: 60px;
+            height: 60px;
+            margin: 2px;
+            cursor: pointer;
+            background: #e1f5fe;
+            border: 1px solid #4a90e2;
+            font-weight: bold;
+        }
+        .op-btn {
+            background: #4a90e2;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+
+<div class="main-box">
+    <!-- No decimals allowed, as requested -->
+    <input type="text" id="view" readonly>
+    <br>
+    <button onclick="press('7')">7</button>
+    <button onclick="press('8')">8</button>
+    <button onclick="press('9')">9</button>
+    <button class="op-btn" onclick="press('/')">/</button>
+    <br>
+    <button onclick="press('4')">4</button>
+    <button onclick="press('5')">5</button>
+    <button onclick="press('6')">6</button>
+    <button class="op-btn" onclick="press('*')">*</button>
+    <br>
+    <button onclick="press('1')">1</button>
+    <button onclick="press('2')">2</button>
+    <button onclick="press('3')">3</button>
+    <button class="op-btn" onclick="press('-')">-</button>
+    <br>
+    <button onclick="press('0')">0</button>
+    <button style="background: #ffcccb;" onclick="clr()">C</button>
+    <button class="op-btn" onclick="doMath()">=</button>
+    <button class="op-btn" onclick="press('+')">+</button>
+</div>
+
+<script>
+    // Variables to store the parts of the math
+    var num1 = "";
+    var num2 = "";
+    var symbol = "";
+
+    function press(val) {
+        var screen = document.getElementById("view");
+        
+        // If it's a math symbol, we save the first number and the symbol
+        if (val == '+' || val == '-' || val == '*' || val == '/') {
+            num1 = screen.value;
+            symbol = val;
+            screen.value = ""; // clear screen for second number
+        } else {
+            screen.value = screen.value + val;
+        }
+    }
+
+    function clr() {
+        document.getElementById("view").value = "";
+        num1 = "";
+        num2 = "";
+        symbol = "";
+    }
+
+    function doMath() {
+        var screen = document.getElementById("view");
+        num2 = screen.value;
+        var result = 0;
+
+        // Converting text to real numbers
+        var n1 = parseInt(num1);
+        var n2 = parseInt(num2);
+
+        // Doing the math manually without eval()
+        if (symbol == '+') {
+            result = n1 + n2;
+        } else if (symbol == '-') {
+            result = n1 - n2;
+        } else if (symbol == '*') {
+            result = n1 * n2;
+        } else if (symbol == '/') {
+            if (n2 == 0) {
+                result = "Error"; // Can't divide by zero!
+            } else {
+                result = n1 / n2;
+            }
+        }
+
+        screen.value = result;
+        // Reset variables for next time
+        num1 = "";
+        symbol = "";
+    }
+</script>
+
+</body>
+</html>
